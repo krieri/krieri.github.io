@@ -1,0 +1,134 @@
+<h1>Sammendrag av MAT1100 - Kalkulus</h1>
+
+<h3>Aksiomer for reelle tall</h3>
+<h5>Kommutativitet</h5>
+<p> $\forall x,y \in \mathbb{R}: x+y=y+x, xy = yx$ </p>
+\subsection{Assosiativitet}
+\[ \forall x,y,z \in \mathbb{R}: x+(y+z)=(x+y)+z, x(yz)=(xy)z \]
+\subsection{Distributivitet}
+\[ \forall x,y,z \in \mathbb{R}: x(y+z)=xy+xz \]
+\subsection{Null- og enhetselement}
+\[ \exists 0,1 \in \mathbb{R}: x+0=x\cdot1=x \]
+\subsection{Motsatte tall}
+\[ \forall x \in \mathbb{R} \hspace{1mm} \exists y \in \mathbb{R}: x+y=0 \]
+\subsection{Inverse tall}
+\[ \forall x \in \mathbb{R}, x \neq 0 \hspace{1mm}\exists z \in \mathbb{R}: xz=1 \]
+\subsection{Transitivitet}
+\[ \forall x,y,z \in \mathbb{R}: x<y<z \Rightarrow x<z \]
+\subsection{Totalitet/trikotomi}
+\[ \forall x,y \in \mathbb{R}: x<y \vee x=y \vee x>y \]
+\subsection{Translasjonell invarians}
+\[ \forall x,y,z \in \mathbb{R}: x<y \Rightarrow x+z<y+z \]
+\subsection{Skaleringsinvarians}
+\[ \forall x,y,z \in \mathbb{R}, x<y, z>0: xz < yz \]
+\subsection{Kompletthet}
+Enhver ikke-tom, oppad begrenset delmengde av $\mathbb{R}$ har en minste øvre skranke i $\mathbb{R}$
+\\\\
+\section{Sentrale teoremer og setninger}
+\subsection{Trekantulikheten}
+\[ \forall a,b \in \mathbb{R}:|a+b| \leq |a|+|b| \]
+\subsection{Arkimedes' prinsipp} \label{arkimedes}
+\[ \forall a \in \mathbb{R} \hspace{1mm}\exists n \in \mathbb{N}: n>a \]
+\[ \forall b \in \mathbb{R}, b>0 \hspace{1mm} \exists m \in \mathbb{N}: \frac{1}{m}<b \]
+\subsection{Rasjonale og irrasjonale tall i et intervall}
+Ethvert åpent intervall $(a,b)$ inneholder både rasjonale og irrasjonale tall. \\\\
+Finn en $m\in\mathbb{N}$ slik at $\frac{1}{m}<b-a$, og en $k\in\mathbb{N}$ slik at $a<\frac{k}{m}<b$. Finn en $p\in\mathbb{N}$ slik at $\frac{1}{p} < \left( b-\frac{k}{m} \right)\frac{1}{\sqrt{2}}$. Da er $\frac{k}{m}+\frac{\sqrt{2}}{p} < b$, og vi har $a < \frac{k}{m} < \frac{k}{m}+\frac{\sqrt{2}}{p} < b$.
+\subsection{Algebraens fundamentalteorem}
+\[ \forall P(z)=c_{n}z^{n}+c_{n-1}z^{n-1}+\cdots c_{1}z+c_{0} \hspace{1mm} \exists r_{1},r_{2},\cdots r_{n} \in \mathbb{C}: P(z) = c_{n}(z-r_{1})(z-r_{2})\cdots (z-r_{n}) \]
+\paragraph{Lemma}
+Dersom $P(z)$ er et reelt polynom $(c_{n},c_{n-1},\cdots c_{0} \not \in \mathbb{C})$, vil røttene alltid opptre i konjugerte par med samme multiplisitet.
+\paragraph{Setning}
+Ethvert reelt $n$-tegradspolynom kan skrives som et produkt av reelle første- og andregradspolynomer.
+\subsection{Konvergens i monotone, begrensede følger}
+En monoton, begrenset følge er alltid konvergent.\\
+Utledning: bruk kompletthetsprinsippet til å vise at følgen har en minste øvre skranke $a$, og definisjonen av konvergens til å vise at $\exists N \in\mathbb{N}: a-\epsilon<x_{n}\leq a, n\geq N$
+\subsection{Kontinuitet bestemt av konvergerende følger}
+Funksjonen $f$ er kontinuerlig i $a$ hvis og bare hvis
+\[ \lim_{n\to\infty} f(x_{n})=f(a) \]
+for alle følger $\{x_{n}\} \in D_{f}$ som konvergerer mot $a$.
+\subsection{Skjæringssetningen}
+For alle kontinuerlige $f:[a,b]\rightarrow \mathbb{R}$ hvor $f(a)$ og $f(b)$ har motsatte fortegn finnes en $c \in (a,b)$ slik at $f(c)=0$
+\paragraph{Korollar}
+For alle kontinuerlige $g,h:[a,b]\rightarrow \mathbb{R}$ hvor $g(a)<h(a), \hspace{1mm} g(b)<h(b)$ finnes en $c \in [a,b]$ slik at $g(c)=h(c)$
+\subsection{Ekstremalverdisetningen}
+Alle kontinuerlige $f:[a,b]\rightarrow \mathbb{R}$ har både maksimums- og minimumspunkter.
+\subsection{Rolles teorem}
+For alle deriverbare $f:[a,b]\rightarrow \mathbb{R}$ hvor $f(a)=f(b)$ finnes en $c \in (a,b)$ slik at $f'(c)=0$
+\subsection{Middelverdisetningen}
+For alle deriverbare $f:[a,b]\rightarrow \mathbb{R}$ finnes en $c \in (a,b)$ slik at $f'(c)=\frac{f(b)-f(a)}{b-a}$
+\subsection{Cauchys middelverdisetning}
+For alle deriverbare $f,g:[a,b]\rightarrow \mathbb{R}$ finnes en $c \in (a,b)$ slik at $\frac{f(b)-f(a)}{g(b)-g(a)}=\frac{f'(c)}{g'(c)}$
+\subsection{L'Hôpitals regel}
+Dersom $\lim_{x\to a}f(x)=\lim_{x\to a}g(x)=0\vee \infty \vee -\infty$ og $\lim_{x\to a}\frac{f'(x)}{g'(x)}$ eksisterer, så er
+\[ \lim_{x\to a}\frac{f(x)}{g(x)} = \lim_{x\to a}\frac{f'(x)}{g'(x)} \]
+\subsection{Vekst av potenser, logaritmer og eksponentialfunksjoner}
+\[ \forall a,b>0: \lim_{x\to \infty} \frac{(\ln{x})^{a}}{x^{b}}=\lim_{x\to \infty} \frac{x^{b}}{e^{ax}}=\lim_{x\to 0^{+}} x^{a}|\ln{x}|^{b}=0 \]
+\subsection{Kontinuitet og deriverbarhet for inverse funksjoner}
+Kontinuerlige, injektive funksjoner er strengt monotone, og har kontinuerlige, strengt monotone inverser.\\
+Inversfunksjonen $g$ til en kontinuerlig, injektiv funksjon $f$ som er deriverbar i $x$, er deriverbar i $y=f(x)$, og
+\[ g'(y)=\frac{1}{f'(x)} \]
+\subsection{Analysens fundamentalteorem}
+En kontinuerlig $f:[a,b]\rightarrow \mathbb{R}$ er integrerbar på ethvert intervall $[a,x], \hspace{1mm} a \leq x \leq b$, og
+\[ F(x)=\int_{a}^{x}f(x)dx, \hspace{1mm} F'(x) = f(x) \]
+\\\\
+\section{Definisjoner}
+\subsection{Grenseverdier}
+Funksjonen $f(x)$ nærmer seg $b$ som grenseverdi når $x$ går mot $a$ dersom
+\[ \forall \epsilon \in\mathbb{R}, \epsilon>0 \hspace{1mm} \exists \delta \in\mathbb{R},\delta>0: 0<|x-a|<\delta \Rightarrow |f(x)-b|<\epsilon \]
+$f(x)$ nærmer seg b som grenseverdi når $x$ går mot $\infty$ dersom
+\[ \forall \epsilon \in\mathbb{R}, \epsilon>0 \hspace{1mm} \exists \hspace{1mm} N \in\mathbb{R}: \forall x\geq N: |f(x)-b| < \epsilon \]
+$f(x)$ går mot $\infty$ når $x$ går mot $a$ dersom
+
+\subsection{Konvergens}
+Følgen $\{x_{n}\}$ konvergerer mot $a$ dersom
+\[\forall \epsilon \in\mathbb{R},\epsilon>0 \hspace{1mm} \exists N \in\mathbb{N}: \forall n\geq N: |x_{n}-a|<\epsilon \]
+\subsection{Divergens}
+Følgen $\{x_{n}\}$ divergerer mot $\infty$ dersom
+\[\forall c \in\mathbb{R} \hspace{1mm} \exists N \in\mathbb{N}: \forall n\geq N: x_{n} \geq c \]
+\subsection{Kontinuitet}
+Funksjonen $f$ er kontinuerlig i et punkt $a \in D_{f}$ dersom
+\[\forall \epsilon \in\mathbb{R},\epsilon>0 \hspace{1mm} \exists \delta \in\mathbb{R},\delta>0: x\in D_{f} \wedge |x-a|<\delta \Rightarrow |f(x)-f(a)| < \epsilon \]
+\subsection{Deriverbarhet}
+Funksjonen $f$ er deriverbar i et punkt $a$ dersom grenseverdien eksisterer:
+\[ \lim_{x \to a} \frac{f(x)-f(a)}{x-a} \]
+\subsection{Integrerbarhet}
+En begrenset funksjon $f:[a,b]\rightarrow \mathbb{R}$ er integrerbar på $[a,b]$ dersom
+\[ \forall \epsilon > 0: (x_{i}-x_{i-1}) \sum_{i=1}^{n}( \sup f(x):x\in[x_{i-1},x_{i}]\} - \inf\{f(x):x\in[x_{i-1},x_{i}]\}) < \epsilon\]
+\subsection{Maksimums- og minimumspunkter}
+Et punkt $c \in D_{f}$ er et lokalt maksimumspunkt for $f$ dersom
+\[ \forall \delta \in \mathbb{R}, \delta > 0: \forall x \in D_{f} \cap (c-\delta,c+\delta): f(c) \geq f(x) \]
+Dersom kriteriet holder for alle $x \in D_{f}$, er $c$ i tillegg et globalt maksimum. Tilsvarende definisjoner gjelder likeledes for lokale/globale minima.
+\subsection{Kritiske punkter}
+Alle endepunkter, punkter der $f'(c)=0$, eller der $f$ ikke er deriverbar, kalles kritiske punkter for $f$.
+\subsection{Konveksitet og vendepunkter}
+Funksjonen $f$ er konveks på intervallet $I$ dersom alle punkter på enhver sekant til $f$ i $I$ ligger over funksjonsgrafen, dvs. dersom $\forall x \in I: f''(x)\geq 0$. I motsatt tilfelle er $f$ konkav. Punktet $a$ er et vendepunkt for $f$ dersom $f$ er kontinuerlig i $a$ og det finnes en $\epsilon > 0$ slik at $f$ er konveks i det ene av intervallene $(a-\epsilon,a),(a,a+\epsilon)$ og konkav i det andre, dvs. dersom $f''(a)=0$
+\subsection{Asymptoter}
+$f(x)$ har en vertikal asymptote når $x \rightarrow a$ (ovenfra eller nedenfra) dersom
+\[ \lim_{x\to a^{+/-}}f(x)=\infty\vee -\infty \]
+$f(x)$ har en skråasymptote på formen $ax+b$ når $x\rightarrow \pm \infty$ dersom
+\[ \lim_{x \to \pm \infty}(f(x)\pm(ax+b))=0 \]
+Dersom $\lim_{x \to \pm \infty}\frac{f(x)}{x}=a \in \mathbb{R}$ og $\lim_{x \to \pm \infty}(f(x)\pm ax)=b \in \mathbb{R}$, så har $f(x)$ en skråasymptote i $ax+b$
+\subsection{Injektivitet og inverse funksjoner}
+En funksjon $f:D_{f}\rightarrow V_{f}$ er injektiv dersom
+\[ \forall y \in V_{f} \hspace{1mm}\exists! \hspace{1mm} x \in D_{f}: y=f(x) \]
+dvs. når $f$ er strengt voksende eller avtagende.\\
+For alle injektive $f$ finnes det en invers funksjon $f^{-1}:V_{f}\rightarrow D_{f}$ slik at $f^{-1}(y)=x$
+\\\\
+\section{Formler og identiteter}
+\subsection{$|z|^{2}=a^{2}+b^{2}=z\overline{z}$}
+\paragraph{Utledning:} $|z|^{2}=r^{2}=\sqrt{a^{2}+b^{2}}^{2}=a^{2}+b^{2}$
+\subsection{$\cos z=\frac{e^{iz}+e^{-iz}}{2}$, $\sin z=\frac{e^{iz}+e^{-iz}}{2i}$}
+\paragraph{Utledning:} $e^{i\theta}=\cos\theta+i\sin\theta$, $e^{-i\theta}=\cos\theta-i\sin\theta$\\
+Løs med hensyn på $\cos\theta$ og $\sin\theta$
+\subsection{$\cosh z = \frac{e^{z}+e^{-z}}{2}=\cos (ix)$, $\sinh z = \frac{e^{z}-e^{-z}}{2}=-i\sin(ix)$}
+\subsection{$\sqrt[n]{z}_{k+1}=\sqrt[n]{z}_{k} \cdot e^{i2\pi/n}$}
+\subsection{Logaritmisk derivasjon}
+Dersom $f$ er deriverbar i $x$ og $f(x)\neq 0$, så er
+\[ f'(x)=f(x) \cdot (\ln |f(x)|)' \]
+\paragraph{Utledning:} deriver $\ln |f(x)|$ og løs med hensyn på $f'(x)$
+\subsection{Newtons metode}
+Tilnærmingsverdier for nullpunkt er gitt ved rekursjonsformelen
+\[ x_{n+1}=x_{n}-\frac{f(x_{n})}{f'(x_{n})} \]
+
+\end{document}
+</p>

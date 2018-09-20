@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>WebGL fractal rendering</title>
+		<meta charset="utf-8"/>
+		<script src="../../webgl.js"></script>
+		<script src="webgl_fractal.js"></script>
+		<script id='mandelbrot_shader' type='x-shader/x-fragment'>
+            precision mediump float;
+            varying vec2 v_pos;
+            uniform float u_T;
+            const int MAX_ITER = 100;
+            float hueToRgb( float m1, float m2, float hue ) {
+                float v;
+                if ( hue < 0.0 ) {
+                    hue += 1.0;
+                }
+                else if ( hue > 1.0 ) {
+                    hue -= 1.0;
+                }
+                if ( 6.0 * hue < 1.0 ) {
+                    v = m1 + ( m2 - m1 ) * hue * 6.0;
+                }
+                else if ( 2.0 * hue < 1.0 ) {
+                    v = m2;
+                }
+                else if ( 3.0 * hue < 2.0 ) {
+                    v = m1 + ( m2 - m1 ) * ( 2.0 / 3.0 - hue ) * 6.0;
+                }
+                else {
+                    v = m1;
+                }
+                return v;
+            }
+            vec3 hsl2rgb( float h, float s, float l ) {
+                float m1, m2, hue;
+                float r, g, b;
+                if ( s == 0.0 ) {
+                    r = g = b = l;
+                }
+                else {
+                    if ( l <= 0.5 ) {
+                        m2 = l * ( s + 1.0 );
+                    }
+                    else {
+                        m2 = l + s - l * s;
+                    }
+                    m1 = l * 2.0 - m2;
+                    hue = h;
+                    r = hueToRgb( m1, m2, hue + 0.333 );
+                    g = hueToRgb( m1, m2, hue);
+                    b = hueToRgb( m1, m2, hue - 0.333 );
+                }
+                return vec3( r, g, b );
+            }
+            vec2 mandelbrot( float ca, float cb ) {
+                float za = 0.0, zb = 0.0, z, ta, tb;
+                float n = 2.0;
+                for ( int i = 0; i < MAX_ITER; ++i ) {
+                    ta = za * za - zb * zb + ca;
+                    tb = 2.0 * za * zb + cb;
+                    za = ta;
+                    zb = tb;
+                    if ( abs( za ) > n || abs( zb ) > n ) {
+                        return vec2( i, sqrt( za * za + zb * zb ) );
+                    }
+                }
+                return vec2( 0.0, 0.0 );
+            }
+            void main( void ) {
+                vec2 iter = mandelbrot( 2.0 * v_pos.x / u_T + 0.001643721971153, 2.0 * v_pos.y / u_T + 0.822467633298876 );
+                float v = ( iter.x + 1.0 - log2( log( iter.y ) ) ) / float( MAX_ITER );
+                vec3 clr = hsl2rgb( 1.0 - v, 0.6, v );
+                gl_FragColor = vec4( clr, 1.0 );
+            }
+        </script>
+        <script id='vertex_shader' type='x-shader/x-vertex'>
+            attribute vec2 a_vertexPos;
+            uniform float u_R;
+            varying vec2 v_pos;
+            void main( void ) {
+                v_pos = a_vertexPos;
+                gl_Position = vec4(a_vertexPos.x / u_R, a_vertexPos.y, 0.0, 1.0);
+            }
+        </script>
+	</head>
+	<body onload="initiate()">
+	</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebGL test</title>
+	<meta charset="utf-8"/>
+	<script src="include/webgl.js"></script>
+	<script src="include/matrix3d.js"></script>
+	<script src="3dTest2.js"></script>
+	<script id="vertexShader" type="x-shader/x-vertex">
+		attribute vec4 a_vertexPosition;
+
+		varying vec3 v_pos;
+
+		uniform mat4 u_transform;
+
+		void main()
+		{
+			gl_Position = u_transform*a_vertexPosition;
+			v_pos = 0.003*a_vertexPosition.xyz;
+		}
+	</script>
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		precision mediump float;
+
+		varying vec3 v_pos;
+
+		void main()
+		{
+			gl_FragColor = vec4(v_pos,1);
+		}
+	</script>
+</head>
+<body onload="setup()">
+</body>
+</html>

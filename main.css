@@ -1,0 +1,101 @@
+body {
+	font-family: Arial,Helvetica;
+	color: #CCCCCC;
+	background: #151515;
+}
+
+h1,h2,h3,h4,h5,h6,p {
+	font-family: Georgia,"Times New Roman";
+	color: #EEEEEE;
+}
+
+p {
+	font-size: 18px;
+}
+
+#display {
+	border: 1px solid #FFFFFF;
+}
+
+input[type=button] {
+	background-color: #330099;
+	color: #EEEEEE;
+	padding: 4px 8px;
+	text-align: center;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+}
+
+input[class='parameter_button'] {
+	background-color: #444444;
+}
+
+#parameter_control {
+	width: auto;
+	height: auto;
+}
+
+nav {
+	font-size: 20px;
+}
+
+.nav_a {
+	color: #774455;
+	text-decoration: none;
+}
+
+#wrapper {
+	width: auto;
+	height: auto;
+	background: #000000;
+	border: 5px solid #888888;
+	overflow: auto;
+	margin: 0 auto;
+	padding: 10px;
+}
+
+#header {
+	width: auto;
+	height: 150px;
+	border-bottom: 3px solid #888888;
+}
+
+#footer {
+	position: absolute;
+	bottom: 0;
+	width: auto;
+	height: 80px;
+	padding: 10px;
+}
+
+#leftSidebar {
+	width: 150px;
+	height: auto;
+	border-right: 3px solid #888888;
+	padding: 10px;
+	margin-right: 20px;
+	float: left;
+}
+
+#rightSidebar {
+	width: 150px;
+	height: auto;
+	border-left: 3px solid #888888;
+	padding: 10px;
+	margin-left: 20px;
+	float: right;
+}
+
+#mainContent {
+	width: auto;
+	height: auto;
+	padding-left: 140px;
+	padding-right: 140px;
+	padding-bottom: 80px;
+}
+
+#logo {
+	float: left;
+	margin: 0px 0px 0px 0px; /* top,right,bottom,left */
+}

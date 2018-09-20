@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebGL test</title>
+	<meta charset="utf-8"/>
+	<script src="../webgl.js"></script>
+	<script src="test1.js"></script>
+	<script id="vertexShader" type="x-shader/x-vertex">
+		attribute vec2 a_vertexPosition;
+
+		uniform vec2 u_resolution;
+
+		void main()
+		{
+			// Convert from pixels to (-1, +1)
+			vec2 clipSpace = 2.0*a_vertexPosition/u_resolution - 1.0;
+			gl_Position = vec4(clipSpace, 0, 1);
+		}
+	</script>
+	<script id="fragmentShader" type="x-shader/x-fragment">
+		precision mediump float;
+
+		uniform vec4 u_color;
+
+		void main()
+		{
+			gl_FragColor = vec4(u_color);
+		}
+	</script>
+</head>
+<body onload="setup()">
+</body>
+</html>

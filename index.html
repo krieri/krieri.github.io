@@ -2,12 +2,21 @@
 <html>
 
 <head>
-	<title>Serendile.com</title>
+	<title>visualmath.net</title>
 	<meta charset="utf-8" />
 	<link rel="stylesheet" type="text/css" href="main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 
 <body>
-	<h2>Hello, world!</h2>
+	<div id='wrapper'>
+		<div id='template'></div>
+		<script> $('#template').load('template.html'); </script>
+		<div id='mainContent'>
+			<h2>Hello, world!</h2>
+			<p>Here you will find introductory information on various mathematical topics, supplemented with illustrative, interactive javascript/WebGL visualizations.</p>
+		</div>
+	</div>
 </body>
+
 </html>

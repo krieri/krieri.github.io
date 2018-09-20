@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Mathematics ++</title>
+	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="../main.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/p5.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.11/addons/p5.dom.min.js"></script>
+	<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+	<script type="text/x-mathjax-config">
+		MathJax.Hub.Config({
+			tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+		});
+	</script>
+</head>
+
+<body oncontextmenu="return false;">
+	<div id='wrapper'>
+		<div id='template'></div>
+		<script> $('#template').load('../template.html'); </script>
+		<div id='mainContent'>
+			<h2>Mathematics & math-related stuff</h2>
+			<input type="button" value="Fractals" onclick="load('fractal/fractalInfo.html')">
+			<input type="button" value="WebGL fractal rendering" onclick="load('fractal/webgl.html')";>
+			<input type="button" value="L-systems" onclick="load('LSys/LSysInfo.html')">
+			<input type="button" value="Genetic algorithms" onclick="load('gen_alg/gen_alg.html')">
+			<input type="button" value="Cellular automata" onclick="load('cel_aut/cel_aut.html')">
+			<input type="button" value="Hyperbolic geometry">
+			<input type="button" value="Conformal mapping" onclick="load('con_map/con_map.html')">
+			<input type="button" value="Linear algebra" onclick="load('lin_alg/lin_alg.html')">
+			<input type="button" value="Vector fields" onclick="load('vec_fld/vec_fld.html')">
+			<input type="button" value="Gravity" onclick="load('phys/gravity.html')">
+			<input type="button" value="Sequences" onclick="load('seq/seq.html')">
+			<input type="button" value="Modular arithmetic" onclick="load('mod_ari/mod_ari.html')">
+			<input type="button" value="Graphing, regression & interpolation" onclick="load('interpol/interpol.html')">
+			<input type="button" value="Calculus" onclick="load('calc/mat1100.html');">
+			<input type="button" value="Complex numbers" onclick="load('complex/complex.html')">
+			<input type="button" value="Attractors" onclick="load('attractors/attractors.html')">
+			<div id='mainText'></div>
+			<script>
+				load = function(page) {
+					//location.reload();
+					//$(document).ready(function() {
+					$('#mainText').load(page, function() {
+						MathJax.Hub.Queue(['Typeset', MathJax.Hub, 'mainText']);
+						$('.visual').each(function(index) {
+							var vis = document.createElement('script');
+							vis.src = $(this).attr('id');
+							$(this).remove();
+							$('.display').get(index).append(vis);
+							vis.onload = function() {
+								var p5inst = new p5(sketch, vis.parentNode);
+							}
+						}
+					)}
+				)}
+			</script>
+		</div>
+	</div>
+</body>
+
+</html>

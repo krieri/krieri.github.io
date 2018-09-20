@@ -1,0 +1,17 @@
+<div class='display'>
+	<script class='visual' id='vec_fld/vec_fld.js'></script>
+</div>
+<div class='parameter_control'>
+	<label for='vx'>vx: </label>
+	<input type="text" name="vx" value="p.cos(x*t)*p.sin(y)" id="vx_input" oninput="update()">
+	<label for='vy'>vy: </label>
+	<input type="text" name="vy" value="-p.sin(x)*p.cos(y*t)" id="vy_input" oninput="update()">
+	<input type="button" class="parameter_button" value="Velocity/acceleration" onclick="changeMode()">
+	<input type="range" min="1" max="10" value="3.141592" step="0.2" id="limit" oninput="update()">
+</div>
+
+<!--
+<div class='display'>
+	<script class='visual' id='vec_fld/Lorenz.js'></script>
+</div>
+-->
