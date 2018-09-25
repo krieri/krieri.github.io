@@ -7,19 +7,26 @@
 	<script src="/webgl/include/matrix3d.js"></script>
 	<script src="transform.js"></script>
 	<script id="vertexShader" type="x-shader/x-vertex">
-		attribute vec4 aVertexPosition;
-		uniform mat4 uModelViewMatrix;
-		unifrom mat4 uProjectionMatrix;
+		attribute vec4 a_vertexPosition;
+
+		varying vec3 v_pos;
+
+		uniform mat4 u_transform;
 
 		void main()
 		{
-			gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+			gl_Position = u_transform*a_vertexPosition;
+			v_pos = 0.006*a_vertexPosition.xyz;
 		}
 	</script>
 	<script id="fragmentShader" type="x-shader/x-fragment">
+		precision mediump float;
+
+		varying vec3 v_pos;
+
 		void main()
 		{
-			gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+			gl_FragColor = vec4(v_pos,1);
 		}
 	</script>
 </head>

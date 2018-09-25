@@ -1,3 +1,5 @@
+
+
 function createCanvas(id, w, h) {
     var canvas = document.createElement(id);
     canvas.width = w;  canvas.height = h;
@@ -112,6 +114,20 @@ function render(gl) {
     }
 }
 */
+
+function Shape(gl, vertices, isize, defprim) {
+    this.vertexBuffer = getVertexBuffer(gl, vertices, isize, defprim);
+}
+
+function getShape(gl, type) {
+    switch(type) {
+        case "box": return new Shape(gl,
+                [1,0,0, 0,0,0, 1,1,0, 0,1,0, 0,1,1, 0,0,0, 0,0,1,
+                 1,0,0, 1,0,1, 1,1,0, 1,1,1, 0,1,1, 1,0,1, 0,0,1],
+                 3, "gl.TRIANGLE_STRIP");
+        default: return null;
+    }
+}
 
 
 /*
