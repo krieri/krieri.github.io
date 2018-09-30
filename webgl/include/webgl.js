@@ -130,6 +130,52 @@ function getShape(gl, type) {
 }
 
 
+function Camera(pos, trgt, up, t, a, near, far) {
+    this.position = pos;
+    this.zTarget = trgt;
+    this.upwards = up;
+    this.theta = t;
+    this.aspect = a;
+    this.zNear = near;
+    this.zFar = far;  
+
+    this.setUnitVectors = function() {
+        this.zHat = normV3(subV3(this.position, this.zTarget));
+        var cross1 = cross(this.upwards, this.zHat);
+        if (magV3(cross1) != 0) this.xHat = normV3(cross1);
+        this.yHat = normV3(cross(this.zHat, this.xHat));
+    }
+    this.xHat = [1,0,0]; // default
+    this.setUnitVectors(); 
+
+    this.getCameraMatrix = function() {
+        /*
+        return [this.xHat[0], this.yHat[0], this.zHat[0], this.position[0],
+                this.xHat[1], this.yHat[1], this.zHat[1], this.position[1],
+                this.xHat[2], this.yHat[2], this.zHat[2], this.position[2],
+                0, 0, 0, 1];
+                */
+        return [this.xHat[0], this.xHat[1], this.xHat[2], 0,
+                this.yHat[0], this.yHat[1], this.yHat[2], 0,
+                this.zHat[0], this.zHat[1], this.zHat[2], 0,
+                this.position[0], this.position[1], this.position[2], 1];
+    }
+
+    this.getViewMatrix = function() {
+        return inverse(this.getCameraMatrix());
+    }
+
+    this.getPerspective = function() {
+        var f = Math.tan(0.5*(Math.PI-this.theta));
+        var zSlope = 2.0/(this.zFar-this.zNear);
+        var depth = [f/this.aspect,0,0,0, 0,f,0,0,
+                     0,0,(this.zNear+this.zFar)*rangeInv,-1,
+                     0,0,2*this.zNear*this.zFar*rangeInv,0];
+        return matmul(depth, this.getCameraMatrix());
+    }
+}
+
+
 /*
 gl.uniform1f (floatUniformLoc, v);                 // for float
 gl.uniform1fv(floatUniformLoc, [v]);               // for float or float array

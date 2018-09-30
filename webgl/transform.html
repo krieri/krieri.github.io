@@ -16,7 +16,7 @@
 		void main()
 		{
 			gl_Position = u_transform*a_vertexPosition;
-			v_pos = 0.006*a_vertexPosition.xyz;
+			v_pos = 2.0*a_vertexPosition.xyz;
 		}
 	</script>
 	<script id="fragmentShader" type="x-shader/x-fragment">
@@ -26,6 +26,7 @@
 
 		void main()
 		{
+			//gl_FragColor = vec4(1,1,1,1);
 			gl_FragColor = vec4(v_pos,1);
 		}
 	</script>
