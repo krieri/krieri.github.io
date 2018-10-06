@@ -7,7 +7,7 @@ function createCanvas(id, w, h) {
     return canvas;
 }
 
-function GLinit(canvas) {
+function GLinit(canvas, depthTest=true) {
     var gl = canvas.getContext("webgl2");
     if (!gl) gl = canvas.getContext("webgl");
     if (!gl) gl = canvas.getContext("experimental-webgl");
@@ -16,8 +16,11 @@ function GLinit(canvas) {
         return null;
     }
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    // gl.viewportWidth = canvas.width;
-    // gl.viewportHeight = canvas.height;
+
+    if (depthTest) {
+        gl.enable(gl.DEPTH_TEST);
+        gl.depthFunc(gl.LESS);
+    }
     gl.clearColor(0,0,0,1);
     gl.clear(gl.COLOR_BUFFER_BIT);
     return gl;
@@ -71,6 +74,18 @@ function getVertexBuffer(gl, vertices, isize, defprim) {
     return buf;
 }
 
+function vertexArrayInit(gl, objects) {
+    var vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
+
+    for (var i = 0; i < objects.length; i++) {
+        gl.enableVertexAttribArray(program.a_vertexPosition);
+        gl.bindBuffer(gl.ARRAY_BUFFER, objects[i].vertexBuffer);
+        gl.vertexAttribPointer(program.a_vertexPosition,
+                objects[i].vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
+    }
+}
+
 function setupProgram(gl, shaders) {
     var prog = gl.createProgram();
     for (var i = 0; i < shaders.length; i++) {
@@ -102,25 +117,10 @@ function getLocations(gl, prog, list) {
     }
 }
 
-/*
-function render(gl) {
-    objectsToDraw.forEach(function(object)) {
-        var programInfo = object.programInfo;
-        var bufferInfo = object.bufferInfo;
-
-        gl.useProgram(programInfo.program);
-        setBuffersAndAttributes(gl, programInfo, bufferInfo);
-        setUniforms(programInfo, object.uniforms);
-        gl.drawArrays(gl.TRIANGLES, 0, bufferInfo.numElements);
-    }
-}
-*/
-
-
 function Shape(gl, type) {
     switch(type) {
         case "cube": {
-            this.vertexBuffer = getVertexBuffer(gl, getVertices("cube"), 3, "gl.TRIANGLE_STRIP");
+            this.vertexBuffer = getVertexBuffer(gl, getVertices("cube"), 3, "TRIANGLE_STRIP");
             break;
         }
         default: return null;
@@ -147,33 +147,47 @@ function Camera(pos, trgt, up, t, a, near, far) {
     this.zNear = near;
     this.zFar = far;  
 
-    this.setUnitVectors = function() {
+    this.updateUnitVectors = function() {
         this.zHat = normV3(subV3(this.position, this.zTarget));
         var cross1 = cross(this.upwards, this.zHat);
         if (magV3(cross1) != 0) this.xHat = normV3(cross1);
         this.yHat = normV3(cross(this.zHat, this.xHat));
     }
-    this.xHat = [1,0,0]; // default
-    this.setUnitVectors(); 
 
-    this.getCameraMatrix = function() {
-        return [this.xHat[0], this.xHat[1], this.xHat[2], 0,
+    this.updateViewMatrix = function() {
+        // view matrix = inverse of the camera matrix
+        this.viewMatrix = inverse(
+                [this.xHat[0], this.xHat[1], this.xHat[2], 0,
                 this.yHat[0], this.yHat[1], this.yHat[2], 0,
                 this.zHat[0], this.zHat[1], this.zHat[2], 0,
-                this.position[0], this.position[1], this.position[2], 1];
+                this.position[0], this.position[1], this.position[2], 1]);
     }
 
-    this.getViewMatrix = function() {
-        return inverse(this.getCameraMatrix());
-    }
-
-    this.getPerspective = function() {
+    this.updateVPMatrix = function() {
+        // view-perspective matrix
         var right = Math.tan(this.theta/2)*this.zNear;
         var top = right/this.aRatio;
-        return [this.zNear/right,0,0,0, 0,this.zNear/top,0,0,
+        this.VPMatrix = matmul(
+                [this.zNear/right,0,0,0, 0,this.zNear/top,0,0,
                 0,0,(this.zFar+this.zNear)/(this.zNear-this.zFar),-1,
-                0,0,2*this.zFar*this.zNear/(this.zNear-this.zFar),0];
+                0,0,2*this.zFar*this.zNear/(this.zNear-this.zFar),0],
+                this.viewMatrix);
     }
+
+    this.update = function() {
+        this.updateUnitVectors();
+        this.updateViewMatrix();
+        this.updateVPMatrix();
+    }
+    // initialization
+    this.xHat = [1,0,0]; // default
+    this.update();
+}
+
+function Mouse() {
+    this.x = 0;
+    this.y = 0;
+    this.pressed = false;
 }
 
 
