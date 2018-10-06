@@ -8,15 +8,14 @@
 	<script src="transform.js"></script>
 	<script id="vertexShader" type="x-shader/x-vertex">
 		attribute vec4 a_vertexPosition;
-
-		varying vec3 v_pos;
-
 		uniform mat4 u_transform;
 
+		varying vec3 v_pos;
+		
 		void main()
 		{
-			gl_Position = u_transform*a_vertexPosition;
 			v_pos = 2.0*a_vertexPosition.xyz;
+			gl_Position = u_transform*a_vertexPosition;
 		}
 	</script>
 	<script id="fragmentShader" type="x-shader/x-fragment">
@@ -30,6 +29,34 @@
 			gl_FragColor = vec4(v_pos,1);
 		}
 	</script>
+<!--
+	<script id="vertexShader" type="x-shader/x-vertex">#version 300 es
+		in vec4 a_vertexPosition;
+		in mat4 u_transform;
+
+		out vec3 v_pos;
+		
+		void main()
+		{
+			v_pos = 2.0*a_vertexPosition.xyz;
+			gl_Position = u_transform*a_vertexPosition;
+		}
+	</script>
+	<script id="fragmentShader" type="x-shader/x-fragment">#version 300 es
+		precision mediump float;
+
+		in vec3 v_pos;
+
+		out vec4 fragmentColor;
+
+		void main()
+		{
+			//gl_FragColor = vec4(1,1,1,1);
+			//fragmentColor = vec4(v_pos,1);
+			fragmentColor = vec4(1,1,1,1);
+		}
+	</script>
+-->
 </head>
 <body onload="initiate()">
 </body>

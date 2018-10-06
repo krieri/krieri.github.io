@@ -8,7 +8,8 @@ function createCanvas(id, w, h) {
 }
 
 function GLinit(canvas) {
-    var gl = canvas.getContext("webgl");
+    var gl = canvas.getContext("webgl2");
+    if (!gl) gl = canvas.getContext("webgl");
     if (!gl) gl = canvas.getContext("experimental-webgl");
     if (!gl) {
         alert("Failed to initialize WebGL.");
@@ -115,16 +116,23 @@ function render(gl) {
 }
 */
 
-function Shape(gl, vertices, isize, defprim) {
-    this.vertexBuffer = getVertexBuffer(gl, vertices, isize, defprim);
+
+function Shape(gl, type) {
+    switch(type) {
+        case "cube": {
+            this.vertexBuffer = getVertexBuffer(gl, getVertices("cube"), 3, "gl.TRIANGLE_STRIP");
+            break;
+        }
+        default: return null;
+    }
 }
 
-function getShape(gl, type) {
+function getVertices(type) {
     switch(type) {
-        case "box": return new Shape(gl,
-                [1,0,0, 0,0,0, 1,1,0, 0,1,0, 0,1,1, 0,0,0, 0,0,1,
-                 1,0,0, 1,0,1, 1,1,0, 1,1,1, 0,1,1, 1,0,1, 0,0,1],
-                 3, "gl.TRIANGLE_STRIP");
+        case "cube": return [0.5,-0.5,-0.5, -0.5,-0.5,-0.5, 0.5,0.5,-0.5, -0.5,0.5,-0.5,
+                            -0.5,0.5,0.5, -0.5,-0.5,-0.5, -0.5,-0.5,0.5, 0.5,-0.5,-0.5,
+                            0.5,-0.5,0.5, 0.5,0.5,-0.5, 0.5,0.5,0.5, -0.5,0.5,0.5,
+                            0.5,-0.5,0.5, -0.5,-0.5,0.5];
         default: return null;
     }
 }
@@ -135,7 +143,7 @@ function Camera(pos, trgt, up, t, a, near, far) {
     this.zTarget = trgt;
     this.upwards = up;
     this.theta = t;
-    this.aspect = a;
+    this.aRatio = a; // aspect ratio
     this.zNear = near;
     this.zFar = far;  
 
@@ -149,12 +157,6 @@ function Camera(pos, trgt, up, t, a, near, far) {
     this.setUnitVectors(); 
 
     this.getCameraMatrix = function() {
-        /*
-        return [this.xHat[0], this.yHat[0], this.zHat[0], this.position[0],
-                this.xHat[1], this.yHat[1], this.zHat[1], this.position[1],
-                this.xHat[2], this.yHat[2], this.zHat[2], this.position[2],
-                0, 0, 0, 1];
-                */
         return [this.xHat[0], this.xHat[1], this.xHat[2], 0,
                 this.yHat[0], this.yHat[1], this.yHat[2], 0,
                 this.zHat[0], this.zHat[1], this.zHat[2], 0,
@@ -166,12 +168,11 @@ function Camera(pos, trgt, up, t, a, near, far) {
     }
 
     this.getPerspective = function() {
-        var f = Math.tan(0.5*(Math.PI-this.theta));
-        var zSlope = 2.0/(this.zFar-this.zNear);
-        var depth = [f/this.aspect,0,0,0, 0,f,0,0,
-                     0,0,(this.zNear+this.zFar)*rangeInv,-1,
-                     0,0,2*this.zNear*this.zFar*rangeInv,0];
-        return matmul(depth, this.getCameraMatrix());
+        var right = Math.tan(this.theta/2)*this.zNear;
+        var top = right/this.aRatio;
+        return [this.zNear/right,0,0,0, 0,this.zNear/top,0,0,
+                0,0,(this.zFar+this.zNear)/(this.zNear-this.zFar),-1,
+                0,0,2*this.zFar*this.zNear/(this.zNear-this.zFar),0];
     }
 }
 
