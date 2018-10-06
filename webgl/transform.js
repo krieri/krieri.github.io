@@ -30,7 +30,7 @@ function initiate() {
 }
 
 window.addEventListener("mousemove", event => {
-    if (drag) {
+    //if (drag) {
         x = (gl.canvas.width - 2*event.clientX) / gl.canvas.width;
         y = (gl.canvas.height - 2*event.clientY) / gl.canvas.height;
         var R = 1;
@@ -39,7 +39,7 @@ window.addEventListener("mousemove", event => {
         //cam.position = [x,y,0.2];
         cam.setUnitVectors();
         render();
-    }
+    //}
 });
 
 window.addEventListener("mousedown", event => { drag = true; });
