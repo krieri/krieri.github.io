@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>3D Transformations</title>
+	<meta charset="utf-8"/>
+	<script src="/webgl/include/webgl.js"></script>
+	<script src="/webgl/include/matrix3d.js"></script>
+	<script src="transform2.js"></script>
+	<script id="vertexShader" type="x-shader/x-vertex">#version 300 es
+		in vec4 a_vertexPosition;
+		
+		uniform mat4 u_transform;
+
+		out vec3 v_pos;
+		
+		void main()
+		{
+			v_pos = 2.0*a_vertexPosition.xyz;
+			gl_Position = u_transform*a_vertexPosition;
+		}
+	</script>
+	<script id="fragmentShader" type="x-shader/x-fragment">#version 300 es
+		precision mediump float;
+
+		in vec3 v_pos;
+
+		out vec4 fragmentColor;
+
+		void main()
+		{
+			fragmentColor = vec4(v_pos,1);
+		}
+	</script>
+</head>
+<body onload="initiate()">
+</body>
+</html>
