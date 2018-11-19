@@ -48,7 +48,7 @@ function render() {
             rec += 1;
                 //ms.scale(m.y);
                 ms.translate(scaleV3(t[i], 0.4*m.x*rec));
-                //ms.scale(m.y*rec);
+                ms.scale(m.y*rec);
                 //drawObject(0);
                 if (rec < 5) bringOutTheBois();
                 else drawObject(0);
