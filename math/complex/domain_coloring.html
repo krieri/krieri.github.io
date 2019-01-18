@@ -245,9 +245,9 @@
 			m = complex((2.0*u_mousePos.x/u_resolution.x-1.0)*ar*u_zoom,
 						(-2.0*u_mousePos.y/u_resolution.y+1.0)*u_zoom);
 
-			//w = c_pow(c_mul(c_sinh(c_div(m,z)), c_atanh(c_mul(m,z))), c_i);
+			w = c_pow(c_mul(c_sinh(c_div(m,z)), c_atanh(c_mul(m,z))), c_i);
 			//w = c_pow(c_mul(z,c_1-z),m) - c_sinh(c_div(m,c_1-m) + c_div(c_i,z));
-			w = c_mul(c_asinh(z), c_div(c_i,c_cos(c_mul(m,z))));
+			//w = c_mul(c_asinh(z), c_div(c_i,c_cos(c_mul(m,z))));
 
 			float nm = mod(c_mod(w),1.0);
 			float na = mod(c_arg(w), (2.0*PI)) / 2.0*PI;
@@ -255,7 +255,7 @@
 			vec3 hsv = vec3(nm, na, 0.5/sqrt(c_mod(w)));
 			vec3 rgb = hsv2rgb(hsv);
 		    
-		    fragmentColor = vec4(rgb.xyz, 1.0);
+		    fragmentColor = vec4(rgb.yzz, 1.0);
 		    //fragmentColor = vec4(hsv.yzz, 1.0);
 		    //xyz, yzz
 		}
