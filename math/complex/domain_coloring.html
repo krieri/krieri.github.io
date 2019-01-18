@@ -255,7 +255,7 @@
 			vec3 hsv = vec3(nm, na, 0.5/sqrt(c_mod(w)));
 			vec3 rgb = hsv2rgb(hsv);
 		    
-		    fragmentColor = vec4(rgb.yzz, 1.0);
+		    fragmentColor = vec4(rgb.xyz, 1.0);
 		    //fragmentColor = vec4(hsv.yzz, 1.0);
 		    //xyz, yzz
 		}
