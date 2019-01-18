@@ -26,13 +26,6 @@ function GLinit(canvas, depthTest=true) {
     return gl;
 }
 
-function background(gl,r,g,b,a) {
-    if (r != undefined) {
-        gl.clearColor(r,g,b,a);
-    }
-    gl.clear(gl.COLOR_BUFFER_BIT);
-}
-
 function getShader(gl, id) {
     var shaderSrc = document.getElementById(id);
     if (!shaderSrc) {
@@ -81,17 +74,16 @@ function getVertexBuffer(gl, vertices, isize, defprim) {
     return buf;
 }
 
-function vertexArrayInit(gl, program, objects) {
+function vertexArrayInit(gl, objects) {
     var vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
 
     for (var i = 0; i < objects.length; i++) {
-        gl.enableVertexAttribArray(program.a_vertexPos);
+        gl.enableVertexAttribArray(program.a_vertexPosition);
         gl.bindBuffer(gl.ARRAY_BUFFER, objects[i].vertexBuffer);
-        gl.vertexAttribPointer(program.a_vertexPos,
+        gl.vertexAttribPointer(program.a_vertexPosition,
                 objects[i].vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
     }
-    return vao;
 }
 
 function setupProgram(gl, shaders) {
@@ -125,34 +117,13 @@ function getLocations(gl, prog, list) {
     }
 }
 
-function Shape(gl, type, coords, color) {
+function Shape(gl, type) {
     switch(type) {
         case "cube": {
             this.vertexBuffer = getVertexBuffer(gl, getVertices("cube"), 3, "TRIANGLE_STRIP");
             break;
         }
-        case "square": {
-            this.vertexBuffer = getVertexBuffer(gl, getVertices("square"), 3, "TRIANGLE_STRIP");
-            break;
-        }
-        case "rectangle": {
-            // coords = [x1, y1, x2, y2]
-            if (coords == undefined) {
-                console.error("No coordinates specified for rectangle!");
-                return null;
-            }
-            x1 = 2*coords[0]/gl.canvas.width - 1;  y1 = 2*coords[1]/gl.canvas.height - 1;
-            x2 = 2*coords[2]/gl.canvas.width - 1;  y2 = 2*coords[3]/gl.canvas.height - 1;
-
-            vertices = [x1,y1, x2,y1, x1,y2, x2,y2];
-            this.vertexBuffer = getVertexBuffer(gl, vertices, 2, "TRIANGLE_STRIP");
-            break;
-        }
-        default: console.error("Undefined shape!");
-    }
-    this.type = type;
-    if (color != undefined) {
-        this.color = color;
+        default: return null;
     }
 }
 
@@ -162,7 +133,6 @@ function getVertices(type) {
                             -0.5,0.5,0.5, -0.5,-0.5,-0.5, -0.5,-0.5,0.5, 0.5,-0.5,-0.5,
                             0.5,-0.5,0.5, 0.5,0.5,-0.5, 0.5,0.5,0.5, -0.5,0.5,0.5,
                             0.5,-0.5,0.5, -0.5,-0.5,0.5];
-        case "square": return [-0.5,-0.5, 0.5,-0.5, -0.5,0.5, 0.5,0.5];
         default: return null;
     }
 }
@@ -184,15 +154,8 @@ function Camera(pos, trgt, up, t, a, near, far) {
         this.yHat = normV3(cross(this.zHat, this.xHat));
     }
 
-    this.getCameraMatrix = function() {
-        return [this.xHat[0], this.xHat[1], this.xHat[2], 0,
-                this.yHat[0], this.yHat[1], this.yHat[2], 0,
-                this.zHat[0], this.zHat[1], this.zHat[2], 0,
-                this.position[0], this.position[1], this.position[2], 1];
-    }
-
     this.updateViewMatrix = function() {
-        // inverse of the camera matrix
+        // view matrix = inverse of the camera matrix
         this.viewMatrix = inverse(
                 [this.xHat[0], this.xHat[1], this.xHat[2], 0,
                 this.yHat[0], this.yHat[1], this.yHat[2], 0,
@@ -222,8 +185,8 @@ function Camera(pos, trgt, up, t, a, near, far) {
 }
 
 function Mouse() {
-    this.x = 0.0;
-    this.y = 0.0;
+    this.x = 0;
+    this.y = 0;
     this.pressed = false;
 }
 
