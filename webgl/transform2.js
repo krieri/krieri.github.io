@@ -7,7 +7,7 @@ function initiate() {
     cam = new Camera([1,1,1], [0,0,0], [0,0,1], Math.PI/2, gl.canvas.width/gl.canvas.height, 0.1, 8);
     ms = new MatrixStack(scale(identityMatrix4(),0.1));
     objects = [new Shape(gl,"cube")];
-    vertexArrayInit(gl, objects);
+    var vao = vertexArrayInit(gl, program, objects);
     m = new Mouse();
 
     gl.uniformMatrix4fv(program.u_transform, false, ms.getMatrix());
